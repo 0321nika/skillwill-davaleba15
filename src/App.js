@@ -1,25 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import useWindowSize from './hooks/useWindowSize';
+import useLocalStorage from './hooks/useLocalStorage'
+import './App.css'
 
-function App() {
+const App = () => {
+  const [darkMode, setDarkMode] = useLocalStorage('darkMode', false);
+  const { width } = useWindowSize();
+
+  const toggleTheme = () => {
+    setDarkMode(!darkMode);
+  };
+
+
+  const theme = width >= 768 ? (darkMode ? 'dark' : 'light') : 'light';
+
+  localStorage.setItem('theme', theme);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className={`App ${theme}`}>
+      <h1>Theme Toggle App</h1>
+      <button onClick={toggleTheme}>Toggle Theme</button>
     </div>
   );
-}
+};
 
 export default App;
